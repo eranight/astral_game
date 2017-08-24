@@ -15,6 +15,7 @@ bool ShipPlayer::initWithWard(Node * ward)
 	{
 		engine->setCurrMovVelocity(0.0f);
 	};
+	return true;
 }
 
 //movement interface

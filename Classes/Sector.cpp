@@ -38,6 +38,11 @@ bool Sector::init()
 	return true;
 }
 
+void Sector::update(float dt)
+{
+
+}
+
 bool Sector::checkValidPosition(const cocos2d::Vec2 & pos)
 {
 	return pos.length() < radius;
