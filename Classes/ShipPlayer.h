@@ -11,6 +11,15 @@ namespace astral_game
 	public:
 		bool initWithWard(cocos2d::Node * ward) override;
 		void receive(Notification notification, cocos2d::Node * sender) override;
+	public: //movement interface
+		float getVelocity();
+		float getMaxVelocity();
+		void setVelocity(float velocity);
+	public: //rotation interface
+		float getRotationDirection();
+		void setLeftRotation();
+		void setRightRotation();
+		void turnOnAngle(float angle);
 	};
 }
 
