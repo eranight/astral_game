@@ -10,6 +10,9 @@ Scene* SectorScene::createScene()
 	auto scene = Scene::create();
 	auto layer = SectorScene::create();
 	scene->addChild(layer);
+	auto camera = Camera::create();
+	camera->setCameraFlag(CameraFlag::USER1);
+	scene->addChild(camera);
 	return scene;
 }
 
@@ -27,8 +30,6 @@ bool SectorScene::init()
 	sector->setTag(LayerTag::SECTOR);
 	sector->setPosition(origin + visibleSize * 0.5f);
 	this->addChild(sector, 0);
-
-
 
 	sector->setCameraMask((unsigned short)CameraFlag::USER1, true); //last step
 
