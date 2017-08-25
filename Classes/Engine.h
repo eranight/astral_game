@@ -12,8 +12,8 @@ namespace astral_game
 	protected:
 		Engine();
 	public:
-		static Engine * create(cocos2d::Node * owner);
-		bool init(cocos2d::Node * owner);
+		static Engine * create();
+		bool init();
 		void update(float dt) override;
 	public:
 		static const std::string NAME;

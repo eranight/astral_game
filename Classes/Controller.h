@@ -11,7 +11,7 @@ namespace astral_game
 	class Controller : public cocos2d::Component, public Notifier
 	{
 	public:
-		bool init(cocos2d::Node * owner, const std::string & name);
+		bool init(const std::string & name);
 	};
 }
 

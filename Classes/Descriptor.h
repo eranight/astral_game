@@ -11,8 +11,6 @@
 
 namespace astral_game
 {
-	class Property;
-
 	class Descriptor : public cocos2d::Ref
 	{
 	private:
@@ -33,6 +31,18 @@ namespace astral_game
 				return nullptr;
 		}
 		bool addProperty(Property * property);
+		template<typename T, typename... Args>
+		bool addProperty(Args && ... args)
+		{
+			auto propPtr = std::shared_ptr<Property>(new T(std::forward<Args>(args)...));
+			if (getProperty(propPtr->getPropertyTag()) == nullptr)
+			{
+				properties.push_back(propPtr);
+				propPtr->setOwner(owner);
+				return true;
+			}
+			return false;
+		}
 	private:
 		std::vector<std::shared_ptr<Property>> properties;
 		cocos2d::Node * owner;

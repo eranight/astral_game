@@ -21,6 +21,8 @@ namespace astral_game
 		Sector * getSector();
 	private:
 		std::vector<std::shared_ptr<Manager>> managers;
+
+		void createShip();
 	};
 }
 

@@ -13,10 +13,10 @@ Tracing::Tracing(float trackingRadius, float trackingAngle) :
 {
 }
 
-Tracing * Tracing::create(Node * owner, float trackingRadius, float trackingAngle)
+Tracing * Tracing::create(float trackingRadius, float trackingAngle)
 {
 	auto pRet = new (std::nothrow) Tracing(trackingRadius, trackingAngle);
-	if (pRet != nullptr && pRet->init(owner))
+	if (pRet != nullptr && pRet->init())
 		pRet->autorelease();
 	else if (pRet != nullptr)
 	{
@@ -26,9 +26,9 @@ Tracing * Tracing::create(Node * owner, float trackingRadius, float trackingAngl
 	return pRet;
 }
 
-bool Tracing::init(Node * owner)
+bool Tracing::init()
 {
-	if (!Controller::init(owner, NAME))
+	if (!Controller::init(NAME))
 		return false;
 	return true;
 }

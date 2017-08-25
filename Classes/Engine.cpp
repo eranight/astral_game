@@ -17,10 +17,10 @@ Engine::Engine() :
 {
 }
 
-Engine * Engine::create(Node * owner)
+Engine * Engine::create()
 {
 	auto pRet = new (std::nothrow) Engine();
-	if (pRet != nullptr && pRet->init(owner))
+	if (pRet != nullptr && pRet->init())
 		pRet->autorelease();
 	else if (pRet != nullptr)
 	{
@@ -30,9 +30,9 @@ Engine * Engine::create(Node * owner)
 	return pRet;
 }
 
-bool Engine::init(Node * owner)
+bool Engine::init()
 {
-	if (!Controller::init(owner, NAME))
+	if (!Controller::init(NAME))
 		return false;
 	return true;
 }

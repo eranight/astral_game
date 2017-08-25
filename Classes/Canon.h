@@ -12,8 +12,8 @@ namespace astral_game
 	protected:
 		Canon(cocos2d::Vec2 position, float rechargeTime);
 	public:
-		static Canon * create(cocos2d::Node * owner, cocos2d::Vec2 position, float rechargeTime);
-		bool init(cocos2d::Node * owner);
+		static Canon * create(cocos2d::Vec2 position, float rechargeTime);
+		bool init();
 		void update(float dt) override;
 	public:
 		static const std::string NAME;

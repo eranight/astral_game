@@ -14,10 +14,10 @@ Canon::Canon(Vec2 position, float rechargeTime) :
 {
 }
 
-Canon * Canon::create(Node * owner, Vec2 position, float rechargeTime)
+Canon * Canon::create(Vec2 position, float rechargeTime)
 {
 	auto pRet = new (std::nothrow) Canon(position, rechargeTime);
-	if (pRet != nullptr && pRet->init(owner))
+	if (pRet != nullptr && pRet->init())
 		pRet->autorelease();
 	else if (pRet != nullptr)
 	{
@@ -27,9 +27,9 @@ Canon * Canon::create(Node * owner, Vec2 position, float rechargeTime)
 	return pRet;
 }
 
-bool Canon::init(Node * owner)
+bool Canon::init()
 {
-	if (!Controller::init(owner, NAME))
+	if (!Controller::init(NAME))
 		return false;
 	return true;
 }

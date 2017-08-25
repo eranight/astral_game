@@ -12,8 +12,8 @@ namespace astral_game
 	protected:
 		Tracing(float trackingRadius, float trackingAngle);
 	public:
-		static Tracing * create(cocos2d::Node * owner, float trackingRadius, float trackingAngle);
-		bool init(cocos2d::Node * owner);
+		static Tracing * create(float trackingRadius, float trackingAngle);
+		bool init();
 		void update(float dt) override;
 	public:
 		static const std::string NAME;
