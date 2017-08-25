@@ -11,7 +11,7 @@ Engine::Engine() :
 	angle(0.0f),
 	rotDirection(0.0f),
 	rotVelocity(0.0f),
-	movDirection(Vec2::ZERO),
+	movDirection(Vec2(0.0f, 1.0f)),
 	maxMovVelocity(0.0f),
 	currMovVelocity(0.0f)
 {

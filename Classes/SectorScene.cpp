@@ -5,6 +5,7 @@
 #include "Engine.h"
 #include "Hittable.h"
 #include "Descriptor.h"
+#include "ShipPlayer.h"
 
 USING_NS_CC;
 using namespace astral_game;
@@ -39,6 +40,7 @@ bool SectorScene::init()
 
 	sector->setCameraMask((unsigned short)CameraFlag::USER1, true); //last step
 
+	scheduleUpdate();
 	return true;
 }
 
@@ -55,7 +57,53 @@ void SectorScene::createShip()
 	Descriptor * descriptor = Descriptor::create(ship);
 	ship->setUserObject(descriptor);
 	descriptor->addProperty<Hittable>(500);
-	ship->addComponent(Engine::create());
+	Engine * engine = Engine::create(); //FIXME: add max velocity as argument to the create method!
+	engine->setMaxMovVelocity(SF(140.0f));
+	ship->addComponent(engine);
 	ship->setPosition(Vec2::ZERO);
 	this->getChildByTag(LayerTag::SECTOR)->addChild(ship);
+
+	ShipPlayer * shipPlayer = new ShipPlayer();
+	shipPlayer->initWithWard(ship);
+	managers.push_back(std::shared_ptr<Manager>(shipPlayer));
+
+	auto eventListenerKeyboard = EventListenerKeyboard::create();
+	eventListenerKeyboard->onKeyPressed = [shipPlayer](EventKeyboard::KeyCode keyCode, Event * event)
+	{
+		switch (keyCode)
+		{
+		case EventKeyboard::KeyCode::KEY_LEFT_ARROW:
+			if (shipPlayer->getRotationDirection() == 0.0f) shipPlayer->setLeftRotation();
+			break;
+		case EventKeyboard::KeyCode::KEY_RIGHT_ARROW:
+			if (shipPlayer->getRotationDirection() == 0.0f) shipPlayer->setRightRotation();
+			break;
+		case EventKeyboard::KeyCode::KEY_UP_ARROW:
+			shipPlayer->setVelocity(SF(70.0f));
+			break;
+		case EventKeyboard::KeyCode::KEY_SPACE:
+			shipPlayer->turnOnAngle(shipPlayer->getAngle() + 90.0f);
+			break;
+		case EventKeyboard::KeyCode::KEY_DOWN_ARROW:
+			shipPlayer->setVelocity(0.0f);
+			break;
+			break;
+		default:
+			break;
+		}
+	};
+
+	eventListenerKeyboard->onKeyReleased = [shipPlayer](EventKeyboard::KeyCode keyCode, Event * event)
+	{
+		switch (keyCode)
+		{
+		case EventKeyboard::KeyCode::KEY_LEFT_ARROW:
+			if (shipPlayer->getRotationDirection() == -1.0f) shipPlayer->resetRotDirection();
+			break;
+		case EventKeyboard::KeyCode::KEY_RIGHT_ARROW:
+			if (shipPlayer->getRotationDirection() == 1.0f) shipPlayer->resetRotDirection();
+			break;
+		}
+	};
+	_eventDispatcher->addEventListenerWithFixedPriority(eventListenerKeyboard, 30);
 }

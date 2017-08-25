@@ -10,6 +10,7 @@ using namespace astral_game;
 
 bool ShipPlayer::initWithWard(Node * ward)
 {
+	this->ward = ward;
 	auto engine = GET_ENGINE;
 	engine->edgeSectorCollisionReaction = [engine](const Vec2 & pos)
 	{
@@ -53,4 +54,14 @@ void ShipPlayer::setRightRotation()
 void ShipPlayer::turnOnAngle(float angle)
 {
 	GET_ENGINE->turnToAngle(angle);
+}
+
+float ShipPlayer::getAngle()
+{
+	return GET_ENGINE->getRotAngle();
+}
+
+void ShipPlayer::resetRotDirection()
+{
+	GET_ENGINE->resetRotDirection();
 }
