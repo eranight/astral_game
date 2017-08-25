@@ -59,6 +59,7 @@ void SectorScene::createShip()
 	descriptor->addProperty<Hittable>(500);
 	Engine * engine = Engine::create(); //FIXME: add max velocity as argument to the create method!
 	engine->setMaxMovVelocity(SF(140.0f));
+	engine->setRotVelocity(SF(70.0f));
 	ship->addComponent(engine);
 	ship->setPosition(Vec2::ZERO);
 	this->getChildByTag(LayerTag::SECTOR)->addChild(ship);

@@ -15,6 +15,7 @@ Engine::Engine() :
 	maxMovVelocity(0.0f),
 	currMovVelocity(0.0f)
 {
+	angle = CC_RADIANS_TO_DEGREES(movDirection.getAngle());
 }
 
 Engine * Engine::create()
@@ -40,7 +41,11 @@ bool Engine::init()
 void Engine::update(float dt)
 {
 	if (rotDirection != 0.0f)
-		turnToAngle(angle + rotVelocity * dt * rotDirection);
+	{
+		movDirection = movDirection.rotateByAngle(Vec2::ZERO, -CC_DEGREES_TO_RADIANS(rotVelocity * dt * rotDirection));
+		_owner->setRotation(-(CC_RADIANS_TO_DEGREES(movDirection.getAngle()) - angle));
+	}
+		//turnToAngle(angle + rotVelocity * dt * rotDirection);
 	if (currMovVelocity != 0.0f)
 	{
 		auto nextPos = _owner->getPosition() + movDirection * currMovVelocity * dt;
