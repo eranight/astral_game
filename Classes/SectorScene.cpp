@@ -13,11 +13,15 @@ using namespace astral_game;
 Scene* SectorScene::createScene()
 {
 	auto scene = Scene::create();
-	auto layer = SectorScene::create();
-	scene->addChild(layer);
+
 	auto camera = Camera::create();
 	camera->setCameraFlag(CameraFlag::USER1);
 	scene->addChild(camera);
+
+	auto layer = SectorScene::create();
+	scene->addChild(layer);
+	dynamic_cast<Sector *>(layer->getChildByTag(TAGINT(LayerTag::SECTOR)))->setShipCamera(camera);
+
 	return scene;
 }
 
@@ -32,9 +36,9 @@ bool SectorScene::init()
 	Vec2 origin = Director::getInstance()->getVisibleOrigin();
 
 	auto sector = Sector::create(SF(1024.0f));
-	sector->setTag(LayerTag::SECTOR);
+	sector->setTag(TAGINT(LayerTag::SECTOR));
 	sector->setPosition(origin + visibleSize * 0.5f);
-	this->addChild(sector, 0);
+	this->addChild(sector);
 
 	createShip();
 
@@ -46,7 +50,7 @@ bool SectorScene::init()
 
 Sector * SectorScene::getSector()
 {
-	return dynamic_cast<Sector *>(getChildByTag(LayerTag::SECTOR));
+	return dynamic_cast<Sector *>(getChildByTag(TAGINT(LayerTag::SECTOR)));
 }
 
 void SectorScene::createShip()
@@ -62,7 +66,8 @@ void SectorScene::createShip()
 	engine->setRotVelocity(SF(70.0f));
 	ship->addComponent(engine);
 	ship->setPosition(Vec2::ZERO);
-	this->getChildByTag(LayerTag::SECTOR)->addChild(ship);
+	ship->setTag(TAGINT(SectorTag::SHIP));
+	this->getChildByTag(TAGINT(LayerTag::SECTOR))->addChild(ship);
 
 	ShipPlayer * shipPlayer = new ShipPlayer();
 	shipPlayer->initWithWard(ship);

@@ -17,12 +17,18 @@ namespace astral_game
 		void update(float dt) override;
 	public: //sector math interface
 		bool checkValidPosition(const cocos2d::Vec2 & pos);
+	public: //sector data interface
+		float getRadius() { return radius; }
+		cocos2d::Camera * getShipCamera() { return shipCamera; }
+		void setShipCamera(cocos2d::Camera * camera);
 	public:
 		static Sector * getSector() { return currentSector; }
 	private:
 		static Sector * currentSector;
 	private:
 		float radius;
+		cocos2d::Camera * shipCamera;
+		cocos2d::Node * ship;
 	};
 }
 

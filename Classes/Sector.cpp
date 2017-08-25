@@ -1,4 +1,5 @@
 #include "Sector.h"
+#include "Utils.h"
 
 USING_NS_CC;
 using namespace astral_game;
@@ -35,12 +36,25 @@ bool Sector::init()
 	circleBorder->setPosition(Vec2::ZERO);
 	this->addChild(circleBorder);
 	
+	scheduleUpdate();
+
 	return true;
 }
 
 void Sector::update(float dt)
 {
+	if (shipCamera != nullptr)
+	{
+		shipCamera->setPosition(this->convertToWorldSpace(ship->getPosition()));
+		//camera->setRotation(ship->getRotation() + 90.0f);
+	}
+}
 
+void Sector::setShipCamera(cocos2d::Camera * camera)
+{
+	ship = getChildByTag(TAGINT(SectorTag::SHIP));
+	shipCamera = camera;
+	shipCamera->setPosition(this->convertToWorldSpace(ship->getPosition()));
 }
 
 bool Sector::checkValidPosition(const cocos2d::Vec2 & pos)
