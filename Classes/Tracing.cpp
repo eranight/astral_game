@@ -9,7 +9,8 @@ Tracing::Tracing(float trackingRadius, float trackingAngle) :
 	trackingRadius(trackingRadius),
 	trackingAngle(trackingAngle),
 	targetIsInTrackingZone(false),
-	targetIsOutTrackingZone(true)
+	targetIsOutTrackingZone(true),
+	target(nullptr)
 {
 }
 

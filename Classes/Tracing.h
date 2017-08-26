@@ -22,7 +22,9 @@ namespace astral_game
 	public:
 		void captureTarget(cocos2d::Node * target) { this->target = target; }
 		void loseTarget() { target = nullptr; }
+		cocos2d::Node * getTarget() { return target; }
 		float getTrackingRadius() { return trackingRadius; }
+		void setTrackingRadius(float radius) { this->trackingRadius = radius; }
 		float getTrackingAngle() { return trackingAngle; }
 	private:
 		cocos2d::Node * target;

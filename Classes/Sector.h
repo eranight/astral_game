@@ -3,8 +3,6 @@
 
 #include "cocos2d.h"
 
-#define SF(num) num / Director::getInstance()->getContentScaleFactor()
-
 namespace astral_game
 {
 	class Sector : public cocos2d::Node

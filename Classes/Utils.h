@@ -2,6 +2,7 @@
 #define __UTILS_H__
 
 #define TAGINT(tag) static_cast<int>(tag)
+#define SF(num) num / Director::getInstance()->getContentScaleFactor()
 
 namespace astral_game
 {

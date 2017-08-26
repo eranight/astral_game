@@ -3,6 +3,8 @@
 #include "Utils.h"
 
 #include "Engine.h"
+#include "Canon.h"
+#include "Tracing.h"
 #include "Hittable.h"
 #include "Descriptor.h"
 #include "ShipPlayer.h"
@@ -135,6 +137,14 @@ void SectorScene::createMonster()
 	engine->setMaxMovVelocity(SF(140.0f));
 	engine->setRotVelocity(SF(70.0f));
 	monster->addComponent(engine);
+
+	Canon * canon = Canon::create(Vec2(0.0f, monster->getContentSize().height * 0.5f), 2.0f);
+	monster->addComponent(canon);
+
+	Tracing * tracing = Tracing::create(SF(300.0f), 0.0f);
+	tracing->captureTarget(this->getChildByTag(TAGINT(LayerTag::SECTOR))->getChildByTag(TAGINT(SectorTag::SHIP)));
+	monster->addComponent(tracing);
+
 	monster->setPosition(Vec2(-400.0f, -400.0f));
 	this->getChildByTag(TAGINT(LayerTag::SECTOR))->addChild(monster);
 
