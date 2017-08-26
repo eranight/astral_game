@@ -127,7 +127,7 @@ void MonsterAI::AgressiveBehaviorScript::update(float dt)
 void MonsterAI::AgressiveBehaviorScript::start()
 {
 	mode = 1;
-	tracing->setTrackingRadius(SF(200.0f));
+	tracing->setTrackingRadius(SF(150.0f));
 	tracing->resetTracking();
 	engine->setCurrMovVelocity(engine->getMaxMovVelocity());
 	CCLOG("AgressiveBehaviorScript::start");
@@ -135,11 +135,13 @@ void MonsterAI::AgressiveBehaviorScript::start()
 	{
 		this->mode = 2;
 		this->engine->setCurrMovVelocity(0.0f);
+		this->tracing->setTrackingRadius(SF(250.0f));
 	};
 	tracing->targetIsOutTrackingZoneReaction = [this](Node * target)
 	{
 		this->mode = 1;
 		this->engine->setCurrMovVelocity(this->engine->getMaxMovVelocity());
+		tracing->setTrackingRadius(SF(200.0f));
 	};
 }
 
