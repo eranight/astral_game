@@ -9,28 +9,30 @@ using namespace astral_game;
 bool MonsterAI::initWithWard(Node * ward)
 {
 	this->ward = ward;
-	scriptMode = 1;
+	switchedScriptMode = 1;
 	auto engine = dynamic_cast<Engine *>(ward->getComponent(Engine::NAME));
 	auto canon = dynamic_cast<Canon *>(ward->getComponent(Canon::NAME));
 	auto tracing = dynamic_cast<Tracing *>(ward->getComponent(Tracing::NAME));
 	calmScript = std::make_shared<CalmBehaviorScript>(engine);
 	agressiveScript = std::make_shared<AgressiveBehaviorScript>(engine, canon, tracing);
-	switchScriptMode(1);
+	switchScriptMode();
 	return true;
 }
 
 void MonsterAI::update(float dt)
 {
+	if (scriptMode != switchedScriptMode)
+		switchScriptMode();
 	if (scriptMode == 1)
 		calmScript->update(dt);
 	else if (scriptMode == 2)
 		agressiveScript->update(dt);
 }
 
-void MonsterAI::switchScriptMode(int scriptMode)
+void MonsterAI::switchScriptMode()
 {
-	this->scriptMode = scriptMode;
-	if (this->scriptMode == 1)
+	scriptMode = switchedScriptMode;
+	if (scriptMode == 1)
 	{
 		agressiveScript->stop();
 		calmScript->start();
@@ -38,10 +40,10 @@ void MonsterAI::switchScriptMode(int scriptMode)
 		tracing->setTrackingRadius(SF(300.0f));
 		tracing->targetIsInTrakcingZoneReaction = [this](Node * target)
 		{
-			this->switchScriptMode(2);
+			switchedScriptMode = 2;
 		};
 	}
-	else if (this->scriptMode == 2)
+	else if (scriptMode == 2)
 	{
 		calmScript->stop();
 		agressiveScript->start();
@@ -113,7 +115,8 @@ void MonsterAI::AgressiveBehaviorScript::update(float dt)
 {
 	Vec2 ownpos = engine->getOwner()->getPosition();
 	Vec2 shppos = tracing->getTarget()->getPosition();
-	float faceangle = -CC_RADIANS_TO_DEGREES((shppos - ownpos).getAngle());
+	float faceangle = CC_RADIANS_TO_DEGREES((shppos - ownpos).getAngle());
+	//engine->getRotAngle();
 	engine->turnToAngle(faceangle);
 	if (mode == 2)
 	{
@@ -125,6 +128,9 @@ void MonsterAI::AgressiveBehaviorScript::start()
 {
 	mode = 1;
 	tracing->setTrackingRadius(SF(200.0f));
+	tracing->resetTracking();
+	engine->setCurrMovVelocity(engine->getMaxMovVelocity());
+	CCLOG("AgressiveBehaviorScript::start");
 	tracing->targetIsInTrakcingZoneReaction = [this](Node * target)
 	{
 		this->mode = 2;

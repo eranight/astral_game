@@ -73,8 +73,10 @@ void Engine::turnToAngle(float angle)
 	//in radian positiv angle - ccw, negative - cw
 	//in dergees positiv angle - cw, negative - ccw
 	//that is why it need minus!
-	movDirection = movDirection.rotateByAngle(Vec2::ZERO, -CC_DEGREES_TO_RADIANS(angle));
-	_owner->setRotation(-(CC_RADIANS_TO_DEGREES(movDirection.getAngle()) - this->angle));
+	//movDirection = movDirection.rotateByAngle(Vec2::ZERO, -CC_DEGREES_TO_RADIANS(angle));
+	//_owner->setRotation(-(CC_RADIANS_TO_DEGREES(movDirection.getAngle()) - this->angle));
+	movDirection = Vec2::forAngle(CC_DEGREES_TO_RADIANS(angle));
+	_owner->setRotation(-(angle - this->angle));
 }
 
 //movement interface

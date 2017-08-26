@@ -40,12 +40,15 @@ void Tracing::update(float dt)
 	{
 		float dist = target->getPosition().distance(_owner->getPosition());
 		//FIXME: obtain the angle
-		if (dist <= trackingRadius && !targetIsInTrackingZone)
+		if (dist <= trackingRadius)
 		{
-			if (targetIsInTrakcingZoneReaction != nullptr)
-				targetIsInTrakcingZoneReaction(target);
-			targetIsInTrackingZone = true;
-			targetIsOutTrackingZone = false;
+			if (!targetIsInTrackingZone)
+			{
+				if (targetIsInTrakcingZoneReaction != nullptr)
+					targetIsInTrakcingZoneReaction(target);
+				targetIsInTrackingZone = true;
+				targetIsOutTrackingZone = false;
+			}
 		}
 		else if (!targetIsOutTrackingZone)
 		{
@@ -55,4 +58,10 @@ void Tracing::update(float dt)
 			targetIsOutTrackingZone = true;
 		}
 	}
+}
+
+void Tracing::resetTracking()
+{
+	targetIsInTrackingZone = false;
+	targetIsOutTrackingZone = true;
 }

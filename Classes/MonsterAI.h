@@ -53,7 +53,8 @@ namespace astral_game
 		};
 		std::shared_ptr<AgressiveBehaviorScript> agressiveScript;
 		int scriptMode; //1 - calm, 2 - agressive
-		void switchScriptMode(int scriptMode);
+		int switchedScriptMode;
+		void switchScriptMode();
 	};
 }
 
