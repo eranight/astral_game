@@ -15,6 +15,7 @@ namespace astral_game
 		cocos2d::Node * getWard() { return ward; }
 		virtual bool initWithWard(cocos2d::Node * ward) = 0;
 		virtual void receive(Notification notification, cocos2d::Node * sender) = 0;
+		virtual void update(float dt) {}
 	protected:
 		cocos2d::Node * ward;
 	};

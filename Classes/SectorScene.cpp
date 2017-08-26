@@ -6,6 +6,7 @@
 #include "Hittable.h"
 #include "Descriptor.h"
 #include "ShipPlayer.h"
+#include "MonsterAI.h"
 
 USING_NS_CC;
 using namespace astral_game;
@@ -41,11 +42,19 @@ bool SectorScene::init()
 	this->addChild(sector);
 
 	createShip();
+	createMonster();
 
 	sector->setCameraMask((unsigned short)CameraFlag::USER1, true); //last step
 
 	scheduleUpdate();
 	return true;
+}
+
+void SectorScene::update(float dt)
+{
+	Layer::update(dt);
+	for (auto & manager : managers)
+		manager->update(dt);
 }
 
 Sector * SectorScene::getSector()
@@ -85,7 +94,7 @@ void SectorScene::createShip()
 			if (shipPlayer->getRotationDirection() == 0.0f) shipPlayer->setRightRotation();
 			break;
 		case EventKeyboard::KeyCode::KEY_UP_ARROW:
-			shipPlayer->setVelocity(SF(70.0f));
+			shipPlayer->setVelocity(shipPlayer->getMaxVelocity() * 0.5f);
 			break;
 		case EventKeyboard::KeyCode::KEY_SPACE:
 			shipPlayer->turnOnAngle(shipPlayer->getAngle() + 90.0f);
@@ -112,4 +121,24 @@ void SectorScene::createShip()
 		}
 	};
 	_eventDispatcher->addEventListenerWithFixedPriority(eventListenerKeyboard, 30);
+}
+
+void SectorScene::createMonster()
+{
+	auto monster = Node::create();
+	auto monsterSprite = Sprite::create("monster.png");
+	monster->addChild(monsterSprite);
+	Descriptor * descriptor = Descriptor::create(monster);
+	monster->setUserObject(descriptor);
+	descriptor->addProperty<Hittable>(500);
+	Engine * engine = Engine::create(); //FIXME: add max velocity as argument to the create method!
+	engine->setMaxMovVelocity(SF(140.0f));
+	engine->setRotVelocity(SF(70.0f));
+	monster->addComponent(engine);
+	monster->setPosition(Vec2(-400.0f, -400.0f));
+	this->getChildByTag(TAGINT(LayerTag::SECTOR))->addChild(monster);
+
+	MonsterAI * monsterAI = new MonsterAI();
+	monsterAI->initWithWard(monster);
+	managers.push_back(std::shared_ptr<Manager>(monsterAI));
 }

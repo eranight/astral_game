@@ -21,7 +21,7 @@ namespace astral_game
 	public:		//rotation interface
 		float getRotVelocity() { return rotVelocity; }
 		float getRotDirection() { return rotDirection; }
-		float getRotAngle() { return angle; }
+		float getRotAngle();
 		void  setRotVelocity(float rotVelocity) { this->rotVelocity = rotVelocity; }
 		void  setRightRotDirection() { rotDirection = 1.0f; }
 		void  setLeftRotDirection()  { rotDirection = -1.0f; }

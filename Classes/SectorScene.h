@@ -16,12 +16,14 @@ namespace astral_game
 	public:
 		static cocos2d::Scene* createScene();
 		bool init() override;
+		void update(float dt) override;
 		CREATE_FUNC(SectorScene);
 	public:
 		Sector * getSector();
 	private:
 		std::vector<std::shared_ptr<Manager>> managers;
 		void createShip();
+		void createMonster();
 	};
 }
 
