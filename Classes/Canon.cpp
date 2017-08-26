@@ -47,7 +47,7 @@ void Canon::update(float dt)
 	}
 }
 
-void Canon::shot()
+void Canon::shot(Node * target)
 {
-
+	
 }

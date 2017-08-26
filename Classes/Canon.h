@@ -19,7 +19,7 @@ namespace astral_game
 		static const std::string NAME;
 		std::function<void()> rechargeComplete;
 	public:
-		void shot(); //FIXME: how does it work?
+		void shot(cocos2d::Node * target); //FIXME: how does it work?
 		bool isReady() { return ready; }
 		float getRechargeTime() { return rechargeTime; }
 		const cocos2d::Vec2 & getPosition() { return position; }

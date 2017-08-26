@@ -2,13 +2,11 @@
 #include "Sector.h"
 #include "Utils.h"
 
-#include "Engine.h"
-#include "Canon.h"
 #include "Tracing.h"
-#include "Hittable.h"
-#include "Descriptor.h"
 #include "ShipPlayer.h"
 #include "MonsterAI.h"
+
+#include "SectorObjectsFactory.h"
 
 USING_NS_CC;
 using namespace astral_game;
@@ -66,16 +64,7 @@ Sector * SectorScene::getSector()
 
 void SectorScene::createShip()
 {
-	Node * ship = Node::create();
-	Sprite * shipSprite = Sprite::create("ship.png");
-	ship->addChild(shipSprite);
-	Descriptor * descriptor = Descriptor::create(ship);
-	ship->setUserObject(descriptor);
-	descriptor->addProperty<Hittable>(500);
-	Engine * engine = Engine::create(); //FIXME: add max velocity as argument to the create method!
-	engine->setMaxMovVelocity(SF(140.0f));
-	engine->setRotVelocity(SF(70.0f));
-	ship->addComponent(engine);
+	Node * ship = SectorObjectsFactory::getInstance()->createShip();
 	ship->setPosition(Vec2::ZERO);
 	ship->setTag(TAGINT(SectorTag::SHIP));
 	this->getChildByTag(TAGINT(LayerTag::SECTOR))->addChild(ship);
@@ -127,23 +116,9 @@ void SectorScene::createShip()
 
 void SectorScene::createMonster()
 {
-	auto monster = Node::create();
-	auto monsterSprite = Sprite::create("monster.png");
-	monster->addChild(monsterSprite);
-	Descriptor * descriptor = Descriptor::create(monster);
-	monster->setUserObject(descriptor);
-	descriptor->addProperty<Hittable>(500);
-	Engine * engine = Engine::create(); //FIXME: add max velocity as argument to the create method!
-	engine->setMaxMovVelocity(SF(140.0f));
-	engine->setRotVelocity(SF(70.0f));
-	monster->addComponent(engine);
-
-	Canon * canon = Canon::create(Vec2(0.0f, monster->getContentSize().height * 0.5f), 2.0f);
-	monster->addComponent(canon);
-
-	Tracing * tracing = Tracing::create(SF(300.0f), 0.0f);
+	auto monster = SectorObjectsFactory::getInstance()->createMonster();
+	auto tracing = dynamic_cast<Tracing *>(monster->getComponent(Tracing::NAME));
 	tracing->captureTarget(this->getChildByTag(TAGINT(LayerTag::SECTOR))->getChildByTag(TAGINT(SectorTag::SHIP)));
-	monster->addComponent(tracing);
 
 	monster->setPosition(Vec2(-400.0f, -400.0f));
 	this->getChildByTag(TAGINT(LayerTag::SECTOR))->addChild(monster);

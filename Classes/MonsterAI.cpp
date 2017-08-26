@@ -120,14 +120,17 @@ void MonsterAI::AgressiveBehaviorScript::update(float dt)
 	engine->turnToAngle(faceangle);
 	if (mode == 2)
 	{
-		//shot
+		if (canon->isReady())
+		{
+
+		}
 	}
 }
 
 void MonsterAI::AgressiveBehaviorScript::start()
 {
 	mode = 1;
-	tracing->setTrackingRadius(SF(150.0f));
+	tracing->setTrackingRadius(SF(200.0f));
 	tracing->resetTracking();
 	engine->setCurrMovVelocity(engine->getMaxMovVelocity());
 	CCLOG("AgressiveBehaviorScript::start");
