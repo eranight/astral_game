@@ -2,8 +2,11 @@
 #include "Sector.h"
 
 #include "Tracing.h"
+#include "Canon.h"
+#include "Engine.h"
 #include "ShipPlayer.h"
 #include "MonsterAI.h"
+#include "BulletAI.h"
 
 #include "SectorObjectsFactory.h"
 
@@ -55,8 +58,8 @@ bool SectorScene::init()
 void SectorScene::update(float dt)
 {
 	Layer::update(dt);
-	for (auto & manager : managers)
-		manager->update(dt);
+	for (auto iter = managers.begin(); iter != managers.end(); ++iter)
+		(*iter)->update(dt);
 }
 
 Sector * SectorScene::getSector()
@@ -139,7 +142,7 @@ void SectorScene::createMonster()
 	tracing->captureTarget(this->getChildByTag(TAGINT(LayerTag::SECTOR))->getChildByTag(TAGINT(SectorTag::SHIP)));
 
 	monster->setPosition(Vec2(SF(-400.0f), SF(-400.0f)));
-	this->getChildByTag(TAGINT(LayerTag::SECTOR))->addChild(monster);
+	getSector()->addChild(monster);
 
 	MonsterAI * monsterAI = new MonsterAI();
 	monsterAI->initWithWard(monster);
@@ -149,14 +152,20 @@ void SectorScene::createMonster()
 void SectorScene::createBullet(Node * sender)
 {
 	auto bullet = SectorObjectsFactory::getInstance()->createBullet();
-	/*bullet->setPosition(_owner->getParent()->convertToNodeSpace(_owner->convertToWorldSpace(position)));
+	Vec2 position = dynamic_cast<Canon *>(sender->getComponent(Canon::NAME))->getPosition();
+	bullet->setPosition(getSector()->convertToNodeSpace(sender->convertToWorldSpace(position)));
 	bullet->setCameraMask((unsigned short)CameraFlag::USER1, true);
 	auto engine = dynamic_cast<Engine *>(bullet->getComponent(Engine::NAME));
-	engine->setMovDirection((target->getPosition() - _owner->getPosition()).getNormalized());
+	auto target = dynamic_cast<Tracing *>(sender->getComponent(Tracing::NAME))->getTarget();
+	engine->setMovDirection((target->getPosition() - sender->getPosition()).getNormalized());
 	engine->setCurrMovVelocity(engine->getMaxMovVelocity());
 
 	auto tracing = dynamic_cast<Tracing *>(bullet->getComponent(Tracing::NAME));
 	tracing->captureTarget(target);
 
-	_owner->getParent()->addChild(bullet);*/
+	BulletAI * bulletAI = new BulletAI();
+	bulletAI->initWithWard(bullet);
+	managers.push_back(std::shared_ptr<Manager>(bulletAI));
+
+	getSector()->addChild(bullet);
 }
