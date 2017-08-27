@@ -53,17 +53,25 @@ Node * SectorObjectsFactory::createMonster()
 
 Node * SectorObjectsFactory::createBullet()
 {
-	auto bullet = ParticleFire::create();
-	bullet->setStartSize(SF(15.0f));
-	bullet->setEndSize(SF(1.0f));
-	bullet->setLife(0.3f);
-	bullet->setLifeVar(0.1f);
-	bullet->setTotalParticles(200);
-	bullet->setEmitterMode(ParticleSystem::Mode::RADIUS);
+	auto bullet = Node::create();
+	auto ps = ParticleFire::create();
+	ps->setStartSize(SF(15.0f));
+	ps->setEndSize(SF(1.0f));
+	ps->setLife(0.3f);
+	ps->setLifeVar(0.1f);
+	ps->setTotalParticles(200);
+	ps->setEmitterMode(ParticleSystem::Mode::RADIUS);
+	ps->setPosition(Vec2::ZERO);
+	bullet->addChild(ps);
 
 	Engine * engine = Engine::create();
 	engine->setMaxMovVelocity(SF(180.0f));
 	engine->setRotVelocity(SF(70.0f));
+	engine->edgeSectorCollisionReaction = [bullet](const Vec2 & pos)
+	{
+		bullet->runAction(RemoveSelf::create());
+	};
+	bullet->addComponent(engine);
 
 	return bullet;
 }

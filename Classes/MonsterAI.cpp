@@ -122,7 +122,7 @@ void MonsterAI::AgressiveBehaviorScript::update(float dt)
 	{
 		if (canon->isReady())
 		{
-
+			canon->shot(tracing->getTarget());
 		}
 	}
 }

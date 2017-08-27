@@ -1,4 +1,6 @@
 #include "Canon.h"
+#include "Engine.h"
+#include "SectorObjectsFactory.h"
 
 USING_NS_CC;
 using namespace astral_game;
@@ -49,5 +51,13 @@ void Canon::update(float dt)
 
 void Canon::shot(Node * target)
 {
-	
+	auto bullet = SectorObjectsFactory::getInstance()->createBullet();
+	bullet->setPosition(_owner->getParent()->convertToNodeSpace(_owner->convertToWorldSpace(position)));
+	bullet->setCameraMask((unsigned short)CameraFlag::USER1, true);
+	auto engine = dynamic_cast<Engine *>(bullet->getComponent(Engine::NAME));
+	engine->setMovDirection((target->getPosition() - _owner->getPosition()).getNormalized());
+	engine->setCurrMovVelocity(engine->getMaxMovVelocity());
+	_owner->getParent()->addChild(bullet);
+
+	ready = false;
 }
