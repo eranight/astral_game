@@ -42,8 +42,15 @@ Node * SectorObjectsFactory::createMonster()
 	engine->setRotVelocity(SF(70.0f));
 	monster->addComponent(engine);
 
-	Canon * canon = Canon::create(Vec2(0.0f, monster->getContentSize().height * 0.5f), 2.0f);
+	Vec2 canonPos = Vec2(0.0f, monsterSprite->getContentSize().height * 0.5f);
+
+	Canon * canon = Canon::create(canonPos, 2.0f);
 	monster->addComponent(canon);
+
+	auto canonPoint = DrawNode::create();
+	canonPoint->drawPoint(Vec2::ZERO, 3.0f, Color4F::RED);
+	canonPoint->setPosition(canonPos);
+	monster->addChild(canonPoint);
 
 	Tracing * tracing = Tracing::create(SF(300.0f), 0.0f);
 	monster->addComponent(tracing);
@@ -57,7 +64,7 @@ Node * SectorObjectsFactory::createBullet()
 	auto ps = ParticleFire::create();
 	ps->setStartSize(SF(15.0f));
 	ps->setEndSize(SF(1.0f));
-	ps->setLife(0.3f);
+	ps->setLife(0.15f);
 	ps->setLifeVar(0.1f);
 	ps->setTotalParticles(200);
 	ps->setEmitterMode(ParticleSystem::Mode::RADIUS);
@@ -65,7 +72,7 @@ Node * SectorObjectsFactory::createBullet()
 	bullet->addChild(ps);
 
 	Engine * engine = Engine::create();
-	engine->setMaxMovVelocity(SF(180.0f));
+	engine->setMaxMovVelocity(SF(300.0f));
 	engine->setRotVelocity(SF(70.0f));
 	engine->edgeSectorCollisionReaction = [bullet](const Vec2 & pos)
 	{
