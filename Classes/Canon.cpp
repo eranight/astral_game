@@ -1,5 +1,6 @@
 #include "Canon.h"
 #include "Engine.h"
+#include "Tracing.h"
 #include "SectorObjectsFactory.h"
 
 USING_NS_CC;
@@ -57,6 +58,10 @@ void Canon::shot(Node * target)
 	auto engine = dynamic_cast<Engine *>(bullet->getComponent(Engine::NAME));
 	engine->setMovDirection((target->getPosition() - _owner->getPosition()).getNormalized());
 	engine->setCurrMovVelocity(engine->getMaxMovVelocity());
+	
+	auto tracing = dynamic_cast<Tracing *>(bullet->getComponent(Tracing::NAME));
+	tracing->captureTarget(target);
+
 	_owner->getParent()->addChild(bullet);
 
 	ready = false;

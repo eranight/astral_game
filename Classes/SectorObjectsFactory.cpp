@@ -76,9 +76,34 @@ Node * SectorObjectsFactory::createBullet()
 	engine->setRotVelocity(SF(70.0f));
 	engine->edgeSectorCollisionReaction = [bullet](const Vec2 & pos)
 	{
+		auto exp = ParticleSun::create();
+		exp->setCameraMask((unsigned short)CameraFlag::USER1, true);
+		exp->setAutoRemoveOnFinish(true);
+		exp->setScale(0.1f);
+		exp->setDuration(0.3f);
+		exp->setPosition(bullet->getPosition());
+		bullet->getParent()->addChild(exp, 3);
+		exp->runAction(ScaleTo::create(0.16f, 0.75f));
+
 		bullet->runAction(RemoveSelf::create());
 	};
 	bullet->addComponent(engine);
+
+	Tracing * tracing = Tracing::create(SF(20.0f), 0.0f);
+	tracing->targetIsInTrakcingZoneReaction = [bullet](Node * target)
+	{
+		auto exp = ParticleSun::create();
+		exp->setCameraMask((unsigned short)CameraFlag::USER1, true);
+		exp->setAutoRemoveOnFinish(true);
+		exp->setScale(0.1f);
+		exp->setDuration(0.3f);
+		exp->setPosition(bullet->getPosition());
+		bullet->getParent()->addChild(exp, 3);
+		exp->runAction(ScaleTo::create(0.16f, 0.75f));
+
+		bullet->runAction(RemoveSelf::create());
+	};
+	bullet->addComponent(tracing);
 
 	return bullet;
 }
