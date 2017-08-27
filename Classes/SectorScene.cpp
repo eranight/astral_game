@@ -1,6 +1,5 @@
 #include "SectorScene.h"
 #include "Sector.h"
-#include "Utils.h"
 
 #include "Tracing.h"
 #include "ShipPlayer.h"
@@ -11,6 +10,8 @@
 USING_NS_CC;
 using namespace astral_game;
 
+std::string SectorScene::NAME = "MainSectorLayer";
+
 Scene* SectorScene::createScene()
 {
 	auto scene = Scene::create();
@@ -20,6 +21,7 @@ Scene* SectorScene::createScene()
 	scene->addChild(camera);
 
 	auto layer = SectorScene::create();
+	layer->setName(NAME);
 	scene->addChild(layer);
 	dynamic_cast<Sector *>(layer->getChildByTag(TAGINT(LayerTag::SECTOR)))->setShipCamera(camera);
 
@@ -60,6 +62,22 @@ void SectorScene::update(float dt)
 Sector * SectorScene::getSector()
 {
 	return dynamic_cast<Sector *>(getChildByTag(TAGINT(LayerTag::SECTOR)));
+}
+
+void SectorScene::receiveNotification(Notification notification, Node * sender)
+{
+	for (auto & manager : managers)
+		manager->receive(notification, sender);
+	if (notification == Notification::AVAILABLE_INVALID)
+	{
+		for (auto iter = managers.begin(); iter != managers.end(); ++iter)
+		{
+			if ((*iter)->getWard() == sender)
+			{
+				managers.erase(iter);
+			}
+		}
+	}
 }
 
 void SectorScene::createShip()
@@ -126,4 +144,19 @@ void SectorScene::createMonster()
 	MonsterAI * monsterAI = new MonsterAI();
 	monsterAI->initWithWard(monster);
 	managers.push_back(std::shared_ptr<Manager>(monsterAI));
+}
+
+void SectorScene::createBullet(Node * sender)
+{
+	auto bullet = SectorObjectsFactory::getInstance()->createBullet();
+	/*bullet->setPosition(_owner->getParent()->convertToNodeSpace(_owner->convertToWorldSpace(position)));
+	bullet->setCameraMask((unsigned short)CameraFlag::USER1, true);
+	auto engine = dynamic_cast<Engine *>(bullet->getComponent(Engine::NAME));
+	engine->setMovDirection((target->getPosition() - _owner->getPosition()).getNormalized());
+	engine->setCurrMovVelocity(engine->getMaxMovVelocity());
+
+	auto tracing = dynamic_cast<Tracing *>(bullet->getComponent(Tracing::NAME));
+	tracing->captureTarget(target);
+
+	_owner->getParent()->addChild(bullet);*/
 }

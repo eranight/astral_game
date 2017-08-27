@@ -9,12 +9,16 @@ namespace astral_game
 	enum class Notification
 	{
 		HITTABLE_DEAD,
+		AVAILABLE_ENABLE,
+		AVAILABLE_DISABLE,
+		AVAILABLE_INVALID,
 		COUNT
 	};
 
 	enum class PropertyTag
 	{
 		HITTABLE,
+		AVAILABLE,
 		COUNT
 	};
 

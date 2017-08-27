@@ -5,6 +5,7 @@
 #include <memory>
 
 #include "cocos2d.h"
+#include "Utils.h"
 
 namespace astral_game
 {
@@ -20,6 +21,9 @@ namespace astral_game
 		CREATE_FUNC(SectorScene);
 	public:
 		Sector * getSector();
+		static std::string NAME;
+		void receiveNotification(Notification notification, cocos2d::Node * sender);
+		void createBullet(cocos2d::Node * sender);
 	private:
 		std::vector<std::shared_ptr<Manager>> managers;
 		void createShip();
