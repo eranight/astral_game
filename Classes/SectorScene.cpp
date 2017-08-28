@@ -58,8 +58,10 @@ bool SectorScene::init()
 void SectorScene::update(float dt)
 {
 	Layer::update(dt);
-	for (auto iter = managers.begin(); iter != managers.end(); ++iter)
-		(*iter)->update(dt);
+	auto tempManagers = managers; //now we can edit the "managers" field inside update method!
+	                              //but is it a good solution?
+	for (auto & manager : tempManagers)
+		manager->update(dt);
 }
 
 Sector * SectorScene::getSector()
@@ -78,6 +80,8 @@ void SectorScene::receiveNotification(Notification notification, Node * sender)
 			if ((*iter)->getWard() == sender)
 			{
 				managers.erase(iter);
+				sender->runAction(RemoveSelf::create());
+				break;
 			}
 		}
 	}

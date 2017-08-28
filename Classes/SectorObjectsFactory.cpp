@@ -4,9 +4,8 @@
 #include "Canon.h"
 #include "Tracing.h"
 #include "Hittable.h"
+#include "Available.h"
 #include "Descriptor.h"
-#include "ShipPlayer.h"
-#include "MonsterAI.h"
 
 USING_NS_CC;
 using namespace astral_game;
@@ -21,6 +20,7 @@ Node * SectorObjectsFactory::createShip()
 	Descriptor * descriptor = Descriptor::create(ship);
 	ship->setUserObject(descriptor);
 	descriptor->addProperty<Hittable>(500);
+	descriptor->addProperty<Available>();
 	Engine * engine = Engine::create();
 	engine->setMaxMovVelocity(SF(140.0f));
 	engine->setRotVelocity(SF(70.0f));
@@ -37,6 +37,7 @@ Node * SectorObjectsFactory::createMonster()
 	Descriptor * descriptor = Descriptor::create(monster);
 	monster->setUserObject(descriptor);
 	descriptor->addProperty<Hittable>(500);
+	descriptor->addProperty<Available>();
 	Engine * engine = Engine::create(); //FIXME: add max velocity as argument to the create method!
 	engine->setMaxMovVelocity(SF(140.0f));
 	engine->setRotVelocity(SF(70.0f));
@@ -44,7 +45,7 @@ Node * SectorObjectsFactory::createMonster()
 
 	Vec2 canonPos = Vec2(0.0f, monsterSprite->getContentSize().height * 0.5f);
 
-	Canon * canon = Canon::create(canonPos, 2.0f);
+	Canon * canon = Canon::create(canonPos, 14.0f);
 	monster->addComponent(canon);
 
 	auto canonPoint = DrawNode::create();
@@ -70,6 +71,10 @@ Node * SectorObjectsFactory::createBullet()
 	ps->setEmitterMode(ParticleSystem::Mode::RADIUS);
 	ps->setPosition(Vec2::ZERO);
 	bullet->addChild(ps);
+
+	Descriptor * descriptor = Descriptor::create(bullet);
+	bullet->setUserObject(descriptor);
+	descriptor->addProperty<Available>();
 
 	Engine * engine = Engine::create();
 	engine->setMaxMovVelocity(SF(300.0f));
