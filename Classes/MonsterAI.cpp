@@ -6,6 +6,29 @@
 USING_NS_CC;
 using namespace astral_game;
 
+void MonsterAI::receive(Notification notification, cocos2d::Node * sender)
+{
+	switch (notification)
+	{
+	case astral_game::Notification::HITTABLE_DEAD:
+	case astral_game::Notification::AVAILABLE_DISABLE:
+	case astral_game::Notification::AVAILABLE_INVALID:
+	{
+														 auto tracing = dynamic_cast<Tracing *>(ward->getComponent(Tracing::NAME));
+														 if (tracing->getTarget() == sender)
+														 {
+															 tracing->loseTarget();
+															 switchedScriptMode = 1;
+														 }
+	}
+		break;
+	case astral_game::Notification::AVAILABLE_ENABLE:
+		break;
+	default:
+		break;
+	}
+}
+
 bool MonsterAI::initWithWard(Node * ward)
 {
 	this->ward = ward;

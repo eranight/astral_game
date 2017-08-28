@@ -143,7 +143,7 @@ void SectorScene::createMonster()
 {
 	auto monster = SectorObjectsFactory::getInstance()->createMonster();
 	auto tracing = dynamic_cast<Tracing *>(monster->getComponent(Tracing::NAME));
-	tracing->captureTarget(this->getChildByTag(TAGINT(LayerTag::SECTOR))->getChildByTag(TAGINT(SectorTag::SHIP)));
+	tracing->captureTarget(getSector()->getChildByTag(TAGINT(SectorTag::SHIP)));
 
 	monster->setPosition(Vec2(SF(-400.0f), SF(-400.0f)));
 	getSector()->addChild(monster);

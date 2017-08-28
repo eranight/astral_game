@@ -3,9 +3,30 @@
 #include "Tracing.h"
 #include "Descriptor.h"
 #include "Available.h"
+#include "Hittable.h"
 
 USING_NS_CC;
 using namespace astral_game;
+
+void BulletAI::receive(Notification notification, Node * sender)
+{
+	switch (notification)
+	{
+	case astral_game::Notification::HITTABLE_DEAD:
+	case astral_game::Notification::AVAILABLE_DISABLE:
+	case astral_game::Notification::AVAILABLE_INVALID:
+	{
+														 auto tracing = dynamic_cast<Tracing *>(ward->getComponent(Tracing::NAME));
+														 if (tracing->getTarget() == sender)
+															 tracing->loseTarget();
+	}
+		break;
+	case astral_game::Notification::AVAILABLE_ENABLE:
+		break;
+	default:
+		break;
+	}
+}
 
 bool BulletAI::initWithWard(Node * ward)
 {
@@ -19,6 +40,8 @@ bool BulletAI::initWithWard(Node * ward)
 	auto tracing = dynamic_cast<Tracing *>(ward->getComponent(Tracing::NAME));
 	tracing->targetIsInTrakcingZoneReaction = [this](Node * target)
 	{
+		dynamic_cast<Descriptor *>(target->getUserObject())->getProperty<Hittable>(PropertyTag::HITTABLE)->impactDamage(100);
+
 		this->shouldBeDestroyed = true;
 	};
 

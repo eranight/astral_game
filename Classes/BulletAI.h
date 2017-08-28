@@ -9,7 +9,7 @@ namespace astral_game
 	{
 	public:
 		bool initWithWard(cocos2d::Node * ward) override;
-		void receive(Notification notification, cocos2d::Node * sender) override {}
+		void receive(Notification notification, cocos2d::Node * sender) override;
 		void update(float dt) override;
 	private:
 		bool shouldBeDestroyed;

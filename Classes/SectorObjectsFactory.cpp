@@ -45,7 +45,7 @@ Node * SectorObjectsFactory::createMonster()
 
 	Vec2 canonPos = Vec2(0.0f, monsterSprite->getContentSize().height * 0.5f);
 
-	Canon * canon = Canon::create(canonPos, 14.0f);
+	Canon * canon = Canon::create(canonPos, 2.0f);
 	monster->addComponent(canon);
 
 	auto canonPoint = DrawNode::create();

@@ -19,6 +19,7 @@ namespace astral_game
 		float getRadius() { return radius; }
 		cocos2d::Camera * getShipCamera() { return shipCamera; }
 		void setShipCamera(cocos2d::Camera * camera);
+		cocos2d::Node * getShip() { return ship; }
 	public:
 		static Sector * getSector() { return currentSector; }
 	private:
