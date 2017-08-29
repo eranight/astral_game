@@ -7,6 +7,8 @@
 #include "Available.h"
 #include "Descriptor.h"
 
+#include <vector>
+
 USING_NS_CC;
 using namespace astral_game;
 
@@ -25,6 +27,13 @@ Node * SectorObjectsFactory::createShip()
 	engine->setMaxMovVelocity(SF(140.0f));
 	engine->setRotVelocity(SF(70.0f));
 	ship->addComponent(engine);
+
+	/*std::vector<Vec2> vectorOfCanonsPos{ Vec2(SF(-10.0f), SF(14.0f)), Vec2(SF(10.0f), SF(14.0f)), Vec2(SF(-10.0f), SF(-14.0f)), Vec2(SF(10.0f), SF(-14.0f)) };
+	for (auto & pos : vectorOfCanonsPos)
+	{
+		Canon * canon = Canon::create(pos, 2.0f);
+		ship->addComponent(canon);
+	}*/
 
 	return ship;
 }
