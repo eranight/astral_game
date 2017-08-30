@@ -3,14 +3,15 @@
 USING_NS_CC;
 using namespace astral_game;
 
-Descriptor::Descriptor(Node * owner) :
-	owner(owner)
+Descriptor::Descriptor(Node * owner, SectorTag tag) :
+	owner(owner),
+	tag(tag)
 {
 }
 
-Descriptor * Descriptor::create(Node * owner)
+Descriptor * Descriptor::create(Node * owner, SectorTag tag)
 {
-	Descriptor * pRet = new (std::nothrow) Descriptor(owner);
+	Descriptor * pRet = new (std::nothrow) Descriptor(owner, tag);
 	if (pRet != nullptr)
 		pRet->autorelease();
 	return pRet;

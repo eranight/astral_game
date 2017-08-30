@@ -11,6 +11,7 @@ namespace astral_game
 	public:
 		bool initWithWard(cocos2d::Node * ward) override;
 		void receive(Notification notification, cocos2d::Node * sender) override {}//FIXME
+		void update(float dt) override {} //FIXME
 	public: //movement interface
 		float getVelocity();
 		float getMaxVelocity();

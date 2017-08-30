@@ -14,9 +14,9 @@ namespace astral_game
 	class Descriptor : public cocos2d::Ref
 	{
 	private:
-		Descriptor(cocos2d::Node * owner);
+		Descriptor(cocos2d::Node * owner, SectorTag tag);
 	public:
-		static Descriptor * create(cocos2d::Node * owner);
+		static Descriptor * create(cocos2d::Node * owner, SectorTag tag);
 	public: //Properties interface
 		std::shared_ptr<Property> getProperty(PropertyTag tag);
 		template<typename T>
@@ -43,9 +43,11 @@ namespace astral_game
 			}
 			return false;
 		}
+		SectorTag getTag() { return tag; }
 	private:
 		std::vector<std::shared_ptr<Property>> properties;
 		cocos2d::Node * owner;
+		SectorTag tag;
 	};
 }
 

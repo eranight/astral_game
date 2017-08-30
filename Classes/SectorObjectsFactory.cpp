@@ -19,7 +19,7 @@ Node * SectorObjectsFactory::createShip()
 	Node * ship = Node::create();
 	Sprite * shipSprite = Sprite::create("ship.png");
 	ship->addChild(shipSprite);
-	Descriptor * descriptor = Descriptor::create(ship);
+	Descriptor * descriptor = Descriptor::create(ship, SectorTag::SHIP);
 	ship->setUserObject(descriptor);
 	descriptor->addProperty<Hittable>(500);
 	descriptor->addProperty<Available>();
@@ -43,7 +43,7 @@ Node * SectorObjectsFactory::createMonster()
 	auto monster = Node::create();
 	auto monsterSprite = Sprite::create("monster.png");
 	monster->addChild(monsterSprite);
-	Descriptor * descriptor = Descriptor::create(monster);
+	Descriptor * descriptor = Descriptor::create(monster, SectorTag::MONSTER);
 	monster->setUserObject(descriptor);
 	descriptor->addProperty<Hittable>(500);
 	descriptor->addProperty<Available>();
@@ -81,7 +81,7 @@ Node * SectorObjectsFactory::createBullet()
 	ps->setPosition(Vec2::ZERO);
 	bullet->addChild(ps);
 
-	Descriptor * descriptor = Descriptor::create(bullet);
+	Descriptor * descriptor = Descriptor::create(bullet, SectorTag::BULLET);
 	bullet->setUserObject(descriptor);
 	descriptor->addProperty<Available>();
 

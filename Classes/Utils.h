@@ -25,7 +25,6 @@ namespace astral_game
 	enum class LayerTag
 	{
 		SECTOR,
-		SHIP,
 		COUNT
 	};
 
@@ -35,6 +34,13 @@ namespace astral_game
 		MONSTER,
 		PORTAL,
 		ISLAND,
+		BULLET,
+		COUNT
+	};
+
+	enum class SkillTag
+	{
+		CANNON,
 		COUNT
 	};
 
@@ -48,6 +54,12 @@ namespace astral_game
 	private:
 		float time;
 		float timer;
+	};
+
+	class Updatable
+	{
+	public:
+		virtual void update(float dt) = 0;
 	};
 }
 	
