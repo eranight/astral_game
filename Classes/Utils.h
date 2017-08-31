@@ -50,6 +50,7 @@ namespace astral_game
 		Timer() : time(0.0f), timer(0.0f) {}
 		void tick(float dt) { if (timer < time) timer += dt; }
 		bool isOver() { return timer >= time; }
+		void reset() { this->timer = 0.0f; }
 		void reset(float time) { this->time = time; this->timer = 0.0f; }
 	private:
 		float time;

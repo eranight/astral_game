@@ -18,6 +18,8 @@ namespace astral_game
 		bool init() override;
 		void update(float dt) override;
 	public:
+		static const std::string NAME;
+	public:
 		std::vector<std::shared_ptr<Skill>> vectorOfSkills;
 	};
 }
