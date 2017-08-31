@@ -42,14 +42,14 @@ namespace astral_game
 		class AgressiveBehaviorScript
 		{
 		public:
-			AgressiveBehaviorScript(Engine * engine, Cannon * cannon, Tracing * tracing);
+			AgressiveBehaviorScript(Engine * engine, std::shared_ptr<Cannon> cannon, Tracing * tracing);
 			void update(float dt);
 			void start();
 			void stop();
 		private:
 			int mode; //1 - reach target, 2 - fire
 			Engine * engine;
-			Cannon * cannon;
+			std::shared_ptr<Cannon> cannon;
 			Tracing * tracing;
 		};
 		std::shared_ptr<AgressiveBehaviorScript> agressiveScript;

@@ -36,7 +36,7 @@ Node * SectorObjectsFactory::createShip()
 	std::vector<Vec2> vectorOfCanonsPos{ Vec2(SF(-10.0f), SF(14.0f)), Vec2(SF(10.0f), SF(14.0f)), Vec2(SF(-10.0f), SF(-14.0f)), Vec2(SF(10.0f), SF(-14.0f)) };
 	for (auto & pos : vectorOfCanonsPos)
 	{
-		skillsSet->vectorOfSkills.push_back(std::dynamic_pointer_cast<Skill>(std::make_shared<Cannon>(pos, 2.0f)));
+		skillsSet->addSkill<Cannon>(pos, 2.0f);
 		auto canonPoint = DrawNode::create();
 		canonPoint->drawPoint(Vec2::ZERO, 3.0f, Color4F::RED);
 		canonPoint->setPosition(pos);
@@ -65,7 +65,7 @@ Node * SectorObjectsFactory::createMonster()
 	monster->addComponent(skillsSet);
 
 	Vec2 canonPos = Vec2(0.0f, monsterSprite->getContentSize().height * 0.5f);
-	skillsSet->vectorOfSkills.push_back(std::dynamic_pointer_cast<Skill>(std::make_shared<Cannon>(canonPos, 2.0f)));
+	skillsSet->addSkill<Cannon>(canonPos, 2.0f);
 
 	auto canonPoint = DrawNode::create();
 	canonPoint->drawPoint(Vec2::ZERO, 3.0f, Color4F::RED);

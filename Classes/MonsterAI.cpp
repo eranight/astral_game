@@ -38,7 +38,7 @@ bool MonsterAI::initWithWard(Node * ward)
 	auto skillsset = dynamic_cast<SkillsSet *>(ward->getComponent(SkillsSet::NAME));
 	auto tracing = dynamic_cast<Tracing *>(ward->getComponent(Tracing::NAME));
 	calmScript = std::make_shared<CalmBehaviorScript>(engine);
-	agressiveScript = std::make_shared<AgressiveBehaviorScript>(engine, dynamic_cast<Cannon *>(skillsset->vectorOfSkills[0].get()), tracing);
+	agressiveScript = std::make_shared<AgressiveBehaviorScript>(engine, skillsset->getSkill<Cannon>(SkillTag::CANNON), tracing);
 	switchScriptMode();
 	return true;
 }
@@ -127,7 +127,7 @@ void MonsterAI::CalmBehaviorScript::stop()
 	engine->edgeSectorCollisionReaction = nullptr;
 }
 
-MonsterAI::AgressiveBehaviorScript::AgressiveBehaviorScript(Engine * engine, Cannon * cannon, Tracing * tracing) :
+MonsterAI::AgressiveBehaviorScript::AgressiveBehaviorScript(Engine * engine, std::shared_ptr<Cannon> cannon, Tracing * tracing) :
 	engine(engine),
 	cannon(cannon),
 	tracing(tracing),

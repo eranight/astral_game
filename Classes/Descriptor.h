@@ -34,7 +34,7 @@ namespace astral_game
 		template<typename T, typename... Args>
 		bool addProperty(Args && ... args)
 		{
-			auto propPtr = std::shared_ptr<Property>(new T(std::forward<Args>(args)...));
+			auto propPtr = std::make_shared<T>(args...);
 			if (getProperty(propPtr->getPropertyTag()) == nullptr)
 			{
 				properties.push_back(propPtr);
