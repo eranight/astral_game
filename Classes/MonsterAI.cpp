@@ -1,6 +1,7 @@
 #include "MonsterAI.h"
 #include "Engine.h"
-#include "Canon.h"
+#include "SkillsSet.h"
+#include "Cannon.h"
 #include "Tracing.h"
 
 USING_NS_CC;
@@ -34,10 +35,10 @@ bool MonsterAI::initWithWard(Node * ward)
 	this->ward = ward;
 	switchedScriptMode = 1;
 	auto engine = dynamic_cast<Engine *>(ward->getComponent(Engine::NAME));
-	auto canon = dynamic_cast<Canon *>(ward->getComponent(Canon::NAME));
+	auto skillsset = dynamic_cast<SkillsSet *>(ward->getComponent(SkillsSet::NAME));
 	auto tracing = dynamic_cast<Tracing *>(ward->getComponent(Tracing::NAME));
 	calmScript = std::make_shared<CalmBehaviorScript>(engine);
-	agressiveScript = std::make_shared<AgressiveBehaviorScript>(engine, canon, tracing);
+	agressiveScript = std::make_shared<AgressiveBehaviorScript>(engine, dynamic_cast<Cannon *>(skillsset->vectorOfSkills[0].get()), tracing);
 	switchScriptMode();
 	return true;
 }
@@ -126,9 +127,9 @@ void MonsterAI::CalmBehaviorScript::stop()
 	engine->edgeSectorCollisionReaction = nullptr;
 }
 
-MonsterAI::AgressiveBehaviorScript::AgressiveBehaviorScript(Engine * engine, Canon * canon, Tracing * tracing) :
+MonsterAI::AgressiveBehaviorScript::AgressiveBehaviorScript(Engine * engine, Cannon * cannon, Tracing * tracing) :
 	engine(engine),
-	canon(canon),
+	cannon(cannon),
 	tracing(tracing),
 	mode(1)
 {
@@ -143,9 +144,9 @@ void MonsterAI::AgressiveBehaviorScript::update(float dt)
 	engine->turnToAngle(faceangle);
 	if (mode == 2)
 	{
-		if (canon->isReady())
+		if (cannon->isReady())
 		{
-			canon->shot(tracing->getTarget());
+			cannon->shot(engine->getOwner(), tracing->getTarget());
 		}
 	}
 }

@@ -23,7 +23,7 @@ namespace astral_game
 		Sector * getSector();
 		static std::string NAME;
 		void receiveNotification(Notification notification, cocos2d::Node * sender);
-		void createBullet(cocos2d::Node * sender);
+		void createBullet(cocos2d::Node * sender, const cocos2d::Vec2 & position);
 	private:
 		std::vector<std::shared_ptr<Manager>> managers;
 		void createShip();

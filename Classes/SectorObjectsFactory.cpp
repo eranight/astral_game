@@ -1,7 +1,8 @@
 #include "SectorObjectsFactory.h"
 #include "Utils.h"
 #include "Engine.h"
-#include "Canon.h"
+#include "Cannon.h"
+#include "SkillsSet.h"
 #include "Tracing.h"
 #include "Hittable.h"
 #include "Available.h"
@@ -23,17 +24,24 @@ Node * SectorObjectsFactory::createShip()
 	ship->setUserObject(descriptor);
 	descriptor->addProperty<Hittable>(500);
 	descriptor->addProperty<Available>();
+	
 	Engine * engine = Engine::create();
 	engine->setMaxMovVelocity(SF(140.0f));
 	engine->setRotVelocity(SF(70.0f));
 	ship->addComponent(engine);
 
-	/*std::vector<Vec2> vectorOfCanonsPos{ Vec2(SF(-10.0f), SF(14.0f)), Vec2(SF(10.0f), SF(14.0f)), Vec2(SF(-10.0f), SF(-14.0f)), Vec2(SF(10.0f), SF(-14.0f)) };
+	SkillsSet * skillsSet = SkillsSet::create();
+	ship->addComponent(skillsSet);
+
+	std::vector<Vec2> vectorOfCanonsPos{ Vec2(SF(-10.0f), SF(14.0f)), Vec2(SF(10.0f), SF(14.0f)), Vec2(SF(-10.0f), SF(-14.0f)), Vec2(SF(10.0f), SF(-14.0f)) };
 	for (auto & pos : vectorOfCanonsPos)
 	{
-		Canon * canon = Canon::create(pos, 2.0f);
-		ship->addComponent(canon);
-	}*/
+		skillsSet->vectorOfSkills.push_back(std::dynamic_pointer_cast<Skill>(std::make_shared<Cannon>(pos, 2.0f)));
+		auto canonPoint = DrawNode::create();
+		canonPoint->drawPoint(Vec2::ZERO, 3.0f, Color4F::RED);
+		canonPoint->setPosition(pos);
+		ship->addChild(canonPoint);
+	}
 
 	return ship;
 }
@@ -47,15 +55,17 @@ Node * SectorObjectsFactory::createMonster()
 	monster->setUserObject(descriptor);
 	descriptor->addProperty<Hittable>(500);
 	descriptor->addProperty<Available>();
+	
 	Engine * engine = Engine::create(); //FIXME: add max velocity as argument to the create method!
 	engine->setMaxMovVelocity(SF(140.0f));
 	engine->setRotVelocity(SF(70.0f));
 	monster->addComponent(engine);
 
-	Vec2 canonPos = Vec2(0.0f, monsterSprite->getContentSize().height * 0.5f);
+	SkillsSet * skillsSet = SkillsSet::create();
+	monster->addComponent(skillsSet);
 
-	Canon * canon = Canon::create(canonPos, 2.0f);
-	monster->addComponent(canon);
+	Vec2 canonPos = Vec2(0.0f, monsterSprite->getContentSize().height * 0.5f);
+	skillsSet->vectorOfSkills.push_back(std::dynamic_pointer_cast<Skill>(std::make_shared<Cannon>(canonPos, 2.0f)));
 
 	auto canonPoint = DrawNode::create();
 	canonPoint->drawPoint(Vec2::ZERO, 3.0f, Color4F::RED);

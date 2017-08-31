@@ -28,7 +28,7 @@ void Cannon::update(float dt)
 void Cannon::shot(Node * owner, Node * target)
 {
 	auto sectorScene = dynamic_cast<SectorScene *>(Director::getInstance()->getRunningScene()->getChildByName(SectorScene::NAME));
-	sectorScene->createBullet(owner);
+	sectorScene->createBullet(owner, position);
 
 	/*auto bullet = SectorObjectsFactory::getInstance()->createBullet();
 	bullet->setPosition(_owner->getParent()->convertToNodeSpace(_owner->convertToWorldSpace(position)));

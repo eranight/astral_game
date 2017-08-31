@@ -11,6 +11,7 @@ namespace astral_game
 {
 	class Engine;
 	class Canon;
+	class Cannon;
 	class Tracing;
 
 	class MonsterAI : public Manager
@@ -41,14 +42,14 @@ namespace astral_game
 		class AgressiveBehaviorScript
 		{
 		public:
-			AgressiveBehaviorScript(Engine * engine, Canon * canon, Tracing * tracing);
+			AgressiveBehaviorScript(Engine * engine, Cannon * cannon, Tracing * tracing);
 			void update(float dt);
 			void start();
 			void stop();
 		private:
 			int mode; //1 - reach target, 2 - fire
 			Engine * engine;
-			Canon * canon;
+			Cannon * cannon;
 			Tracing * tracing;
 		};
 		std::shared_ptr<AgressiveBehaviorScript> agressiveScript;

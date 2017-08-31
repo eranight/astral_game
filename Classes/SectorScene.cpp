@@ -2,7 +2,6 @@
 #include "Sector.h"
 
 #include "Tracing.h"
-#include "Canon.h"
 #include "Engine.h"
 #include "ShipPlayer.h"
 #include "MonsterAI.h"
@@ -153,10 +152,9 @@ void SectorScene::createMonster()
 	managers.push_back(std::shared_ptr<Manager>(monsterAI));
 }
 
-void SectorScene::createBullet(Node * sender)
+void SectorScene::createBullet(Node * sender, const Vec2 & position)
 {
 	auto bullet = SectorObjectsFactory::getInstance()->createBullet();
-	Vec2 position = dynamic_cast<Canon *>(sender->getComponent(Canon::NAME))->getPosition();
 	bullet->setPosition(getSector()->convertToNodeSpace(sender->convertToWorldSpace(position)));
 	bullet->setCameraMask((unsigned short)CameraFlag::USER1, true);
 	auto engine = dynamic_cast<Engine *>(bullet->getComponent(Engine::NAME));
