@@ -113,6 +113,7 @@ void MonsterAI::CalmBehaviorScript::start()
 	mode = 1;
 	randimizeTimer(relaxTimer);
 	currTimer = &relaxTimer;
+	engine->setCurrMovVelocity(0.0f);
 	engine->edgeSectorCollisionReaction = [this](const Vec2 & nextPos)
 	{
 		if (this->mode == 2)
