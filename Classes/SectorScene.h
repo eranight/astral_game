@@ -18,6 +18,8 @@ namespace astral_game
 		static cocos2d::Scene* createScene();
 		bool init() override;
 		void update(float dt) override;
+		bool onTouchBegan(cocos2d::Touch * touch, cocos2d::Event * event) override;
+		void onTouchEnded(cocos2d::Touch * touch, cocos2d::Event * event) override;
 		CREATE_FUNC(SectorScene);
 	public:
 		Sector * getSector();

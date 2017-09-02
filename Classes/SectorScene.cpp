@@ -6,6 +6,8 @@
 #include "ShipPlayer.h"
 #include "MonsterAI.h"
 #include "BulletAI.h"
+#include "Descriptor.h"
+#include "Clickable.h"
 
 #include "SectorObjectsFactory.h"
 
@@ -50,6 +52,9 @@ bool SectorScene::init()
 
 	sector->setCameraMask((unsigned short)CameraFlag::USER1, true); //last step
 
+	this->setTouchMode(Touch::DispatchMode::ONE_BY_ONE);
+	this->setTouchEnabled(true);
+
 	scheduleUpdate();
 	return true;
 }
@@ -61,6 +66,31 @@ void SectorScene::update(float dt)
 	                              //but is it a good solution?
 	for (auto & manager : tempManagers)
 		manager->update(dt);
+}
+
+bool SectorScene::onTouchBegan(cocos2d::Touch * touch, cocos2d::Event * event)
+{
+	return true;
+}
+
+void SectorScene::onTouchEnded(cocos2d::Touch * touch, cocos2d::Event * event)
+{
+	auto sector = getSector();
+	Vec2 touchCoord = sector->convertToNodeSpace(touch->getLocation());
+
+	if (touchCoord.length() <= sector->getRadius())
+	{
+		for (auto & child : sector->getChildren())
+		{
+			if (child->getUserObject() == nullptr) continue;
+			auto clickable = dynamic_cast<Descriptor *>(child->getUserObject())->getProperty<Clickable>(PropertyTag::CLICKABLE);
+			if (clickable != nullptr && clickable->click(touchCoord))
+			{
+				CCLOG("the monster was clicked!");
+				break;
+			}
+		}
+	}
 }
 
 Sector * SectorScene::getSector()

@@ -6,6 +6,7 @@
 #include "Tracing.h"
 #include "Hittable.h"
 #include "Available.h"
+#include "Clickable.h"
 #include "Descriptor.h"
 
 #include <vector>
@@ -55,6 +56,7 @@ Node * SectorObjectsFactory::createMonster()
 	monster->setUserObject(descriptor);
 	descriptor->addProperty<Hittable>(500);
 	descriptor->addProperty<Available>();
+	descriptor->addProperty<Clickable>(monsterSprite->getContentSize().height);
 	
 	Engine * engine = Engine::create(); //FIXME: add max velocity as argument to the create method!
 	engine->setMaxMovVelocity(SF(140.0f));

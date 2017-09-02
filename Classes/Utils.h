@@ -19,6 +19,7 @@ namespace astral_game
 	{
 		HITTABLE,
 		AVAILABLE,
+		CLICKABLE,
 		COUNT
 	};
 
