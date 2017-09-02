@@ -76,7 +76,9 @@ bool SectorScene::onTouchBegan(cocos2d::Touch * touch, cocos2d::Event * event)
 void SectorScene::onTouchEnded(cocos2d::Touch * touch, cocos2d::Event * event)
 {
 	auto sector = getSector();
-	Vec2 touchCoord = sector->convertToNodeSpace(touch->getLocation());
+	auto sectorPos = this->convertToWorldSpace(sector->getPosition());
+	auto cameraPos = sector->getShipCamera()->convertToWorldSpace(touch->getLocation());
+	auto touchCoord = sector->convertToNodeSpace(cameraPos - sectorPos);
 
 	if (touchCoord.length() <= sector->getRadius())
 	{
