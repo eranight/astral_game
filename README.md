@@ -11,3 +11,4 @@ use:
 ![alt text](https://github.com/eranight/astral_game/blob/master/Screenshots/3.png)
 ![alt text](https://github.com/eranight/astral_game/blob/develop/Screenshots/4.png)
 ![alt text](https://github.com/eranight/astral_game/blob/develop/Screenshots/5.png)
+![alt text](https://github.com/eranight/astral_game/blob/develop/Screenshots/6.png)

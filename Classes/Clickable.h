@@ -1,6 +1,8 @@
 #ifndef __CLICKABLE_H__
 #define __CLICKABLE_H__
 
+#include <functional>
+
 #include "Property.h"
 
 namespace astral_game
@@ -12,6 +14,8 @@ namespace astral_game
 	public:
 		float getRadius() { return radius; }
 		bool click(const cocos2d::Vec2 & pos);
+	public:
+		std::function<void()> onClick;
 	private:
 		float radius;
 	};

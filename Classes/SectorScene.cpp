@@ -84,11 +84,25 @@ void SectorScene::onTouchEnded(cocos2d::Touch * touch, cocos2d::Event * event)
 	{
 		for (auto & child : sector->getChildren())
 		{
-			if (child->getUserObject() == nullptr) continue;
-			auto clickable = dynamic_cast<Descriptor *>(child->getUserObject())->getProperty<Clickable>(PropertyTag::CLICKABLE);
+			auto descriptor = dynamic_cast<Descriptor *>(child->getUserObject());
+			if (descriptor == nullptr) continue;
+			auto clickable = descriptor->getProperty<Clickable>(PropertyTag::CLICKABLE);
 			if (clickable != nullptr && clickable->click(touchCoord))
 			{
-				CCLOG("the monster was clicked!");
+				if (descriptor->getTag() == SectorTag::MONSTER)
+				{
+					CCLOG("the monster was clicked!");
+					auto ship = sector->getShip();
+					auto tracing = dynamic_cast<Tracing *>(ship->getComponent(Tracing::NAME));
+					if (tracing->getTarget() != child)
+					{
+						tracing->captureTarget(child);
+					}
+					else
+					{
+						tracing->loseTarget();
+					}
+				}
 				break;
 			}
 		}

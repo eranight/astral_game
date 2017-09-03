@@ -12,5 +12,8 @@ Clickable::Clickable(float radius) :
 
 bool Clickable::click(const Vec2 & pos)
 {
-	return (getOwner()->getPosition() - pos).length() <= radius;
+	bool clickResult = (getOwner()->getPosition() - pos).length() <= radius;
+	if (clickResult && onClick != nullptr)
+		onClick();
+	return clickResult;
 }

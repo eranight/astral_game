@@ -44,6 +44,9 @@ Node * SectorObjectsFactory::createShip()
 		ship->addChild(canonPoint);
 	}
 
+	Tracing * tracing = Tracing::create(300.0f, 0.0f);
+	ship->addComponent(tracing);
+
 	return ship;
 }
 

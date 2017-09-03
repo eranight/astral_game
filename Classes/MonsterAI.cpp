@@ -3,6 +3,8 @@
 #include "SkillsSet.h"
 #include "Cannon.h"
 #include "Tracing.h"
+#include "Descriptor.h"
+#include "Clickable.h"
 
 USING_NS_CC;
 using namespace astral_game;
@@ -39,6 +41,25 @@ bool MonsterAI::initWithWard(Node * ward)
 	auto tracing = dynamic_cast<Tracing *>(ward->getComponent(Tracing::NAME));
 	calmScript = std::make_shared<CalmBehaviorScript>(engine);
 	agressiveScript = std::make_shared<AgressiveBehaviorScript>(engine, skillsset->getSkill<Cannon>(SkillTag::CANNON), tracing);
+
+	auto descriptor = dynamic_cast<Descriptor *>(ward->getUserObject());
+	auto clickable = descriptor->getProperty<Clickable>(PropertyTag::CLICKABLE);
+	clickable->onClick = [ward]()
+	{
+		auto targetChild = ward->getChildByName("target");
+		if (targetChild != nullptr) 
+		{
+			ward->removeChild(targetChild);
+		}
+		else
+		{
+			targetChild = Sprite::create("target.png");
+			targetChild->setName("target");
+			targetChild->setCameraMask(ward->getCameraMask());
+			ward->addChild(targetChild);
+		}
+	};
+
 	switchScriptMode();
 	return true;
 }
