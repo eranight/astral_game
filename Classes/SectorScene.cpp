@@ -66,6 +66,11 @@ void SectorScene::update(float dt)
 	                              //but is it a good solution?
 	for (auto & manager : tempManagers)
 		manager->update(dt);
+	managers.erase(std::remove_if(managers.begin(), managers.end(),
+		[](const std::shared_ptr<Manager> & manager) {
+			return manager->isInvalid() ? (manager->getWard()->runAction(RemoveSelf::create()), true) : false; 
+		}),
+		managers.end());
 }
 
 bool SectorScene::onTouchBegan(cocos2d::Touch * touch, cocos2d::Event * event)
@@ -118,16 +123,10 @@ void SectorScene::receiveNotification(Notification notification, Node * sender)
 {
 	for (auto & manager : managers)
 		manager->receive(notification, sender);
-	if (notification == Notification::AVAILABLE_INVALID)
-	{
-		for (auto iter = managers.begin(); iter != managers.end(); ++iter)
-		{
-			if ((*iter)->getWard() == sender)
-			{
-				managers.erase(iter);
-				sender->runAction(RemoveSelf::create());
-				break;
-			}
+	if (notification == Notification::AVAILABLE_INVALID) {
+		auto & manager = std::find_if(managers.begin(), managers.end(), [sender] (const std::shared_ptr<Manager> & manager) {return manager->getWard() == sender; });
+		if (*manager != nullptr) {
+			(*manager)->setInvalid();
 		}
 	}
 }

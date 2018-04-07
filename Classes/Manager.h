@@ -9,14 +9,18 @@ namespace astral_game
 	class Manager : public Updatable
 	{
 	public:
-		Manager() = default;
+		Manager() : invalid(false) {}
 		virtual ~Manager() = default;
 	public:
 		cocos2d::Node * getWard() { return ward; }
 		virtual bool initWithWard(cocos2d::Node * ward) = 0;
 		virtual void receive(Notification notification, cocos2d::Node * sender) = 0;
+		void setInvalid() { invalid = true; }
+		bool isInvalid() { return invalid; }
 	protected:
 		cocos2d::Node * ward;
+	private:
+		bool invalid;
 	};
 }
 
