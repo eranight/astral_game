@@ -13,9 +13,9 @@ void MonsterAI::receive(Notification notification, cocos2d::Node * sender)
 {
 	switch (notification)
 	{
-	case astral_game::Notification::HITTABLE_DEAD:
-	case astral_game::Notification::AVAILABLE_DISABLE:
-	case astral_game::Notification::AVAILABLE_INVALID:
+	case Notification::HITTABLE_DEAD:
+	case Notification::AVAILABLE_DISABLE:
+	case Notification::AVAILABLE_INVALID:
 	{
 														 auto tracing = dynamic_cast<Tracing *>(ward->getComponent(Tracing::NAME));
 														 if (tracing->getTarget() == sender)
@@ -25,7 +25,7 @@ void MonsterAI::receive(Notification notification, cocos2d::Node * sender)
 														 }
 	}
 		break;
-	case astral_game::Notification::AVAILABLE_ENABLE:
+	case Notification::AVAILABLE_ENABLE:
 		break;
 	default:
 		break;
