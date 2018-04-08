@@ -12,7 +12,8 @@ namespace astral_game
 	class State : public Updatable
 	{
 	public:
-		virtual void init() = 0; //entry point
+		virtual void entry() = 0; //entry point
+		virtual void exit() = 0; //exit point
 		const std::vector<std::shared_ptr<Transition>> & getTransitions() { return transitions; }
 	private:
 		std::vector<std::shared_ptr<Transition>> transitions;

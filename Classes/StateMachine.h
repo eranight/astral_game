@@ -1,10 +1,12 @@
 #ifndef __STATE_MACHINE_H__
 #define __STATE_MACHINE_H__
 
+#include "Updatable.h"
+
 namespace astral_game
 {
 
-	class StateMachine
+	class StateMachine : public Updatable
 	{
 
 	};
