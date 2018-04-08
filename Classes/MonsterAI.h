@@ -42,7 +42,7 @@ namespace astral_game
 		class AgressiveBehaviorScript
 		{
 		public:
-			AgressiveBehaviorScript(Engine * engine, std::shared_ptr<Cannon> cannon, Tracking * tracing);
+			AgressiveBehaviorScript(Engine * engine, std::shared_ptr<Cannon> cannon, Tracking * tracking);
 			void update(float dt);
 			void start();
 			void stop();
@@ -50,7 +50,7 @@ namespace astral_game
 			int mode; //1 - reach target, 2 - fire
 			Engine * engine;
 			std::shared_ptr<Cannon> cannon;
-			Tracking * tracing;
+			Tracking * tracking;
 		};
 		std::shared_ptr<AgressiveBehaviorScript> agressiveScript;
 		int scriptMode; //1 - calm, 2 - agressive
