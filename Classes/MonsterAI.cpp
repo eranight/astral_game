@@ -2,7 +2,7 @@
 #include "Engine.h"
 #include "SkillsSet.h"
 #include "Cannon.h"
-#include "Tracing.h"
+#include "Tracking.h"
 #include "Descriptor.h"
 #include "Clickable.h"
 
@@ -17,7 +17,7 @@ void MonsterAI::receive(Notification notification, cocos2d::Node * sender)
 	case Notification::AVAILABLE_DISABLE:
 	case Notification::AVAILABLE_INVALID:
 	{
-														 auto tracing = dynamic_cast<Tracing *>(ward->getComponent(Tracing::NAME));
+														 auto tracing = dynamic_cast<Tracking *>(ward->getComponent(Tracking::NAME));
 														 if (tracing->getTarget() == sender)
 														 {
 															 tracing->loseTarget();
@@ -38,7 +38,7 @@ bool MonsterAI::initWithWard(Node * ward)
 	switchedScriptMode = 1;
 	auto engine = dynamic_cast<Engine *>(ward->getComponent(Engine::NAME));
 	auto skillsset = dynamic_cast<SkillsSet *>(ward->getComponent(SkillsSet::NAME));
-	auto tracing = dynamic_cast<Tracing *>(ward->getComponent(Tracing::NAME));
+	auto tracing = dynamic_cast<Tracking *>(ward->getComponent(Tracking::NAME));
 	calmScript = std::make_shared<CalmBehaviorScript>(engine);
 	agressiveScript = std::make_shared<AgressiveBehaviorScript>(engine, skillsset->getSkill<Cannon>(SkillTag::CANNON), tracing);
 
@@ -81,7 +81,7 @@ void MonsterAI::switchScriptMode()
 	{
 		agressiveScript->stop();
 		calmScript->start();
-		auto tracing = dynamic_cast<Tracing *>(ward->getComponent(Tracing::NAME));
+		auto tracing = dynamic_cast<Tracking *>(ward->getComponent(Tracking::NAME));
 		tracing->setTrackingRadius(SF(300.0f));
 		tracing->targetIsInTrakcingZoneReaction = [this](Node * target)
 		{
@@ -149,7 +149,7 @@ void MonsterAI::CalmBehaviorScript::stop()
 	engine->edgeSectorCollisionReaction = nullptr;
 }
 
-MonsterAI::AgressiveBehaviorScript::AgressiveBehaviorScript(Engine * engine, std::shared_ptr<Cannon> cannon, Tracing * tracing) :
+MonsterAI::AgressiveBehaviorScript::AgressiveBehaviorScript(Engine * engine, std::shared_ptr<Cannon> cannon, Tracking * tracing) :
 	engine(engine),
 	cannon(cannon),
 	tracing(tracing),

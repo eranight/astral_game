@@ -1,7 +1,7 @@
 #include "SectorScene.h"
 #include "Sector.h"
 
-#include "Tracing.h"
+#include "Tracking.h"
 #include "Engine.h"
 #include "ShipPlayer.h"
 #include "MonsterAI.h"
@@ -98,7 +98,7 @@ void SectorScene::onTouchEnded(cocos2d::Touch * touch, cocos2d::Event * event)
 				{
 					CCLOG("the monster was clicked!");
 					auto ship = sector->getShip();
-					auto tracing = dynamic_cast<Tracing *>(ship->getComponent(Tracing::NAME));
+					auto tracing = dynamic_cast<Tracking *>(ship->getComponent(Tracking::NAME));
 					if (tracing->getTarget() != child)
 					{
 						tracing->captureTarget(child);
@@ -186,7 +186,7 @@ void SectorScene::createShip()
 void SectorScene::createMonster()
 {
 	auto monster = SectorObjectsFactory::getInstance()->createMonster();
-	auto tracing = dynamic_cast<Tracing *>(monster->getComponent(Tracing::NAME));
+	auto tracing = dynamic_cast<Tracking *>(monster->getComponent(Tracking::NAME));
 	tracing->captureTarget(getSector()->getChildByTag(TAGINT(SectorTag::SHIP)));
 
 	monster->setPosition(Vec2(SF(-400.0f), SF(-400.0f)));
@@ -203,11 +203,11 @@ void SectorScene::createBullet(Node * sender, const Vec2 & position)
 	bullet->setPosition(getSector()->convertToNodeSpace(sender->convertToWorldSpace(position)));
 	bullet->setCameraMask((unsigned short)CameraFlag::USER1, true);
 	auto engine = dynamic_cast<Engine *>(bullet->getComponent(Engine::NAME));
-	auto target = dynamic_cast<Tracing *>(sender->getComponent(Tracing::NAME))->getTarget();
+	auto target = dynamic_cast<Tracking *>(sender->getComponent(Tracking::NAME))->getTarget();
 	engine->setMovDirection((target->getPosition() - sender->getPosition()).getNormalized());
 	engine->setCurrMovVelocity(engine->getMaxMovVelocity());
 
-	auto tracing = dynamic_cast<Tracing *>(bullet->getComponent(Tracing::NAME));
+	auto tracing = dynamic_cast<Tracking *>(bullet->getComponent(Tracking::NAME));
 	tracing->captureTarget(target);
 
 	BulletAI * bulletAI = new BulletAI();

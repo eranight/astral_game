@@ -1,11 +1,11 @@
-#include "Tracing.h"
+#include "Tracking.h"
 
 USING_NS_CC;
 using namespace astral_game;
 
-const std::string Tracing::NAME = "tracing";
+const std::string Tracking::NAME = "tracing";
 
-Tracing::Tracing(float trackingRadius, float trackingAngle) :
+Tracking::Tracking(float trackingRadius, float trackingAngle) :
 	trackingRadius(trackingRadius),
 	trackingAngle(trackingAngle),
 	targetIsInTrackingZone(false),
@@ -14,9 +14,9 @@ Tracing::Tracing(float trackingRadius, float trackingAngle) :
 {
 }
 
-Tracing * Tracing::create(float trackingRadius, float trackingAngle)
+Tracking * Tracking::create(float trackingRadius, float trackingAngle)
 {
-	auto pRet = new (std::nothrow) Tracing(trackingRadius, trackingAngle);
+	auto pRet = new (std::nothrow) Tracking(trackingRadius, trackingAngle);
 	if (pRet != nullptr && pRet->init())
 		pRet->autorelease();
 	else if (pRet != nullptr)
@@ -27,14 +27,14 @@ Tracing * Tracing::create(float trackingRadius, float trackingAngle)
 	return pRet;
 }
 
-bool Tracing::init()
+bool Tracking::init()
 {
 	if (!Controller::init(NAME))
 		return false;
 	return true;
 }
 
-void Tracing::update(float dt)
+void Tracking::update(float dt)
 {
 	if (target != nullptr)
 	{
@@ -60,7 +60,7 @@ void Tracing::update(float dt)
 	}
 }
 
-void Tracing::resetTracking()
+void Tracking::resetTracking()
 {
 	targetIsInTrackingZone = false;
 	targetIsOutTrackingZone = true;

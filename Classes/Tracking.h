@@ -1,5 +1,5 @@
-#ifndef __TRACING_H__
-#define __TRACING_H__
+#ifndef __TRACKING_H__
+#define __TRACKING_H__
 
 #include <functional>
 
@@ -7,12 +7,12 @@
 
 namespace astral_game
 {
-	class Tracing : public Controller
+	class Tracking : public Controller
 	{
 	protected:
-		Tracing(float trackingRadius, float trackingAngle);
+		Tracking(float trackingRadius, float trackingAngle);
 	public:
-		static Tracing * create(float trackingRadius, float trackingAngle);
+		static Tracking * create(float trackingRadius, float trackingAngle);
 		bool init();
 		void update(float dt) override;
 	public:
@@ -37,4 +37,4 @@ namespace astral_game
 	};
 }
 
-#endif //__TRACING_H__
+#endif //__TRACKING_H__

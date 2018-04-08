@@ -1,6 +1,6 @@
 #include "BulletAI.h"
 #include "Engine.h"
-#include "Tracing.h"
+#include "Tracking.h"
 #include "Descriptor.h"
 #include "Available.h"
 #include "Hittable.h"
@@ -16,7 +16,7 @@ void BulletAI::receive(Notification notification, Node * sender)
 	case astral_game::Notification::AVAILABLE_DISABLE:
 	case astral_game::Notification::AVAILABLE_INVALID:
 	{
-														 auto tracing = dynamic_cast<Tracing *>(ward->getComponent(Tracing::NAME));
+														 auto tracing = dynamic_cast<Tracking *>(ward->getComponent(Tracking::NAME));
 														 if (tracing->getTarget() == sender)
 															 tracing->loseTarget();
 	}
@@ -37,7 +37,7 @@ bool BulletAI::initWithWard(Node * ward)
 	{
 		this->shouldBeDestroyed = true;
 	};
-	auto tracing = dynamic_cast<Tracing *>(ward->getComponent(Tracing::NAME));
+	auto tracing = dynamic_cast<Tracking *>(ward->getComponent(Tracking::NAME));
 	tracing->targetIsInTrakcingZoneReaction = [this](Node * target)
 	{
 		dynamic_cast<Descriptor *>(target->getUserObject())->getProperty<Hittable>(PropertyTag::HITTABLE)->impactDamage(100);

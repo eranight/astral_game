@@ -3,7 +3,7 @@
 #include "Engine.h"
 #include "Cannon.h"
 #include "SkillsSet.h"
-#include "Tracing.h"
+#include "Tracking.h"
 #include "Hittable.h"
 #include "Available.h"
 #include "Clickable.h"
@@ -44,7 +44,7 @@ Node * SectorObjectsFactory::createShip()
 		ship->addChild(canonPoint);
 	}
 
-	Tracing * tracing = Tracing::create(300.0f, 0.0f);
+	Tracking * tracing = Tracking::create(300.0f, 0.0f);
 	ship->addComponent(tracing);
 
 	return ship;
@@ -77,7 +77,7 @@ Node * SectorObjectsFactory::createMonster()
 	canonPoint->setPosition(canonPos);
 	monster->addChild(canonPoint);
 
-	Tracing * tracing = Tracing::create(SF(300.0f), 0.0f);
+	Tracking * tracing = Tracking::create(SF(300.0f), 0.0f);
 	monster->addComponent(tracing);
 
 	return monster;
@@ -105,7 +105,7 @@ Node * SectorObjectsFactory::createBullet()
 	engine->setRotVelocity(SF(70.0f));
 	bullet->addComponent(engine);
 
-	Tracing * tracing = Tracing::create(SF(20.0f), 0.0f);
+	Tracking * tracing = Tracking::create(SF(20.0f), 0.0f);
 	bullet->addComponent(tracing);
 
 	return bullet;
