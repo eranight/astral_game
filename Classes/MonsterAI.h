@@ -6,6 +6,7 @@
 #include "cocos2d.h"
 #include "Manager.h"
 #include "Utils.h"
+#include "Timer.h"
 
 namespace astral_game
 {

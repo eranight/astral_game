@@ -2,6 +2,7 @@
 #define __SKILL_H__
 
 #include "Utils.h"
+#include "Updatable.h"
 
 namespace astral_game
 {

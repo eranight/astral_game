@@ -3,6 +3,7 @@
 
 #include "Skill.h"
 #include "cocos2d.h"
+#include "Timer.h"
 
 namespace astral_game
 {

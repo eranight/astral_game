@@ -3,6 +3,7 @@
 
 #include "cocos2d.h"
 #include "Utils.h"
+#include "Updatable.h"
 
 namespace astral_game
 {

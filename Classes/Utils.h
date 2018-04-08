@@ -45,24 +45,6 @@ namespace astral_game
 		COUNT
 	};
 
-	class Timer
-	{
-	public:
-		Timer() : time(0.0f), timer(0.0f) {}
-		void tick(float dt) { if (timer < time) timer += dt; }
-		bool isOver() { return timer >= time; }
-		void reset() { this->timer = 0.0f; }
-		void reset(float time) { this->time = time; this->timer = 0.0f; }
-	private:
-		float time;
-		float timer;
-	};
-
-	class Updatable
-	{
-	public:
-		virtual void update(float dt) = 0;
-	};
 }
 	
 #endif //__UTILS_H__
