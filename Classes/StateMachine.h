@@ -4,17 +4,16 @@
 #include <vector>
 #include <memory>
 
-#include "Updatable.h"
+#include "State.h"
 
 namespace astral_game
 {
-	class State;
 
 	class StateMachine : public Updatable
 	{
 	public:
 		virtual void update(float dt) override;
-	private:
+	protected:
 		std::vector<std::shared_ptr<State>> states;
 		std::shared_ptr<State> currentState;
 		std::shared_ptr<State> initialState;

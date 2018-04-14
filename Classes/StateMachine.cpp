@@ -1,5 +1,4 @@
 #include "StateMachine.h"
-#include "State.h"
 
 using namespace astral_game;
 
